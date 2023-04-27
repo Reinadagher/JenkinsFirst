@@ -5,11 +5,13 @@ pipeline {
         
         string(name: 'URL', defaultValue: '', description: 'URL Java Projet to Build')
         string(name: 'BRANCH', defaultValue: 'main', description: 'Branch')
+        choice(name: 'JAVA_Version', choices:['17','11','20','21','22'], description: 'Java version to use')
     }
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "M3"
+        jdk "JDK${params.Java_Version}"
     }
 
     stages {
@@ -19,6 +21,7 @@ pipeline {
                 // Get some code from a GitHub repository
                 git url: "${params.URL}",
                     branch: "${params.BRANCH}"
+                sh "sed -i -e 's@<maven.compiler.target>.*</maven.compiler.target>@<maven.compiler.target>11</maven.compiler.target>@' -e 's@<maven.compiler.source>.*</maven.compiler.source>@<maven.compiler.source>11</maven.compiler.source>@' pom.xml"
                 }
             }
 
