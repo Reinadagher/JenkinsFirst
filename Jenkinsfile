@@ -5,13 +5,13 @@ pipeline {
         
         string(name: 'URL', defaultValue: '', description: 'URL Java Projet to Build')
         string(name: 'BRANCH', defaultValue: 'main', description: 'Branch')
-        choice(name: 'JAVA_Version', choices:['17','11','20','21','22'], description: 'Java version to use')
+        choice(name: 'Java_Version', choices:['17','11','20','21','22'], description: 'Java version to use')
     }
 
     tools {
         // Install the Maven version configured as "M3" and add it to the path.
         maven "M3"
-        jdk "JDK-${params.Java_Version}"
+        jdk "JDK${params.Java_Version}"
     }
 
     stages {
